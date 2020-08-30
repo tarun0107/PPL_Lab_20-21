@@ -1,0 +1,60 @@
+Problem B-1 :
+                                                                                                         |
+;; Function AddTwo (AddTwo, funcdef_no=12, decl_uid=3090, cgraph_uid=13, symbol_order=12)                |;; Function AddTwo (AddTwo, funcdef_no=12, decl_uid=3090, cgraph_uid=13, symbol_order=12)
+                                                                                                         |
+AddTwo (int a)                                                                                           |Iterations: 0
+{                                                                                                        |AddTwo (int a)
+  int _3;                                                                                                |{
+                                                                                                         |  int _3;
+  <bb 2> :                                                                                               |
+  a_2 = a_1(D) + 2;                                                                                      |  <bb 2> :
+  _3 = a_2;                                                                                              |  a_2 = a_1(D) + 2;
+  return _3;                                                                                             |  _3 = a_2;
+                                                                                                         |  return _3;
+}                                                                                                        |
+                                                                                                         |}
+                                                                                                         |
+                                                                                                         |
+;; Function main (main, funcdef_no=13, decl_uid=3092, cgraph_uid=14, symbol_order=13)                    |
+                                                                                                         |;; Function main (main, funcdef_no=13, decl_uid=3092, cgraph_uid=14, symbol_order=13)
+main ()                                                                                                  |
+{                                                                                                        |Iterations: 1
+  int x;                                                                                                 |
+  int _5;                                                                                                |Symbols to be put in SSA form
+                                                                                                         |{ D.3104 }
+  <bb 2> :                                                                                               |Incremental SSA update started at block: 0
+  x_1 = 3;                                                                                               |Number of blocks in CFG: 5
+  x_4 = AddTwo (x_1);                                                                                    |Number of blocks to update: 4 ( 80%)
+  _5 = x_4;                                                                                              |
+  return _5;                                                                                             |
+                                                                                                         |Merging blocks 2 and 4
+}                                                                                                        |Merging blocks 2 and 3
+                                                                                                         |main ()
+                                                                                                         |{
+~                                                                                                        |  int D.3104;
+~                                                                                                        |  int a;
+~                                                                                                        |  int x;
+~                                                                                                        |  int _5;
+~                                                                                                        |
+~                                                                                                        |  <bb 2> :
+~                                                                                                        |  x_1 = 3;
+~                                                                                                        |  a_3 = x_1 + 2;
+~                                                                                                        |  _6 = a_3;
+~                                                                                                        |  x_4 = _6;
+~                                                                                                        |  _5 = x_4;
+~                                                                                                        |  return _5;
+~                                                                                                        |
+~                                                                                                        |}
+~                                                                                                        |
+~                                                                                                        |
+~                                                                                                        |~
+
+
+Q.1 The body of AddTwo(x) seems to be inlined into the call of main
+rendering the function useless (nobody else is calling it). Then why
+is the definition of AddTwo(x) still there all the way till the last pass (B-1.c*.optimized)?
+Ans: The function body can’t be discarded because it may be called from another file.
+
+Q.2 Is there any way to get rid of it?
+Ans: If the ‘static’ keyword is used for the declaration of function, then function block 
+will disappear if there is no call to it within the file.

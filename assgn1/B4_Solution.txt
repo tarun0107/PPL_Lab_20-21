@@ -1,0 +1,49 @@
+Problem B-4:
+                                                                                                         |
+;; Function main (main, funcdef_no=12, decl_uid=3089, cgraph_uid=13, symbol_order=12)                    |;; Function main (main, funcdef_no=12, decl_uid=3089, cgraph_uid=13, symbol_order=12)
+                                                                                                         |
+main ()                                                                                                  |;; 1 loops found
+{                                                                                                        |;;
+  int c;                                                                                                 |;; Loop 0
+  int b;                                                                                                 |;;  header 0, latch 1
+  int a;                                                                                                 |;;  depth 0, outer -1
+  int _1;                                                                                                |;;  nodes: 0 1 2
+  int _2;                                                                                                |;; 2 succs { 1 }
+  int _3;                                                                                                |main ()
+  int _8;                                                                                                |{
+                                                                                                         |  int c;
+  <bb 2> :                                                                                               |  int b;
+  _1 = a_4(D) + c_5(D);                                                                                  |  int a;
+  _2 = b_6(D) + _1;                                                                                      |  int _1;
+  _3 = c_5(D) + a_4(D);                                                                                  |  int _2;
+  b_7 = _2 * _3;                                                                                         |
+  _8 = b_7;                                                                                              |  <bb 2> :
+  return _8;                                                                                             |  _1 = a_4(D) + c_5(D);
+                                                                                                         |  _2 = _1 + b_6(D);
+}                                                                                                        |  b_7 = _1 * _2;
+                                                                                                         |  return b_7;
+                                                                                                         |
+~                                                                                                        |}
+~                                                                                                        |
+~                                                                                                        |
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+
+
+Q.1 How many times is the expression (a + c) computed in the original code (as seen in the
+SSA pass)? What about after the FRE pass?
+Ans: The expression (a + c) got executed two times but in FRE pass, a temporary variable 
+saved the value of expression and used the temporary variable next time.
+
+Q.2 Have there been any more optimizations after FRE?  How will you check?
+Ans: We can check if there have been any optimization by checking 
+ B-4.c.*.optimized which is the final file after optimization. It appears that redundant 
+assignment subsequently been eliminated.
+ 
+Q.3 Why did we have to put a "return b" in this assignment?  What if "return b" is changed 
+to "return 0"? Will it make any difference?
+Ans: Yes, it will make difference in output. As we know, return 0 give control to os and 
+hence there will be no output. Instead if we return b, it will give us the value of b computed from program.
+ 

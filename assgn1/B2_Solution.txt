@@ -1,0 +1,53 @@
+Problem B-2:
+                                                                                                         |
+;; Function main (main, funcdef_no=12, decl_uid=3090, cgraph_uid=13, symbol_order=13)                    |;; Function main (main, funcdef_no=12, decl_uid=3090, cgraph_uid=13, symbol_order=13) (executed once)
+                                                                                                         |
+main ()                                                                                                  |main ()
+{                                                                                                        |{
+  int a;                                                                                                 |  int a;
+  int i;                                                                                                 |  int i;
+  int N.0_1;                                                                                             |  int N.0_9;
+  int _6;                                                                                                |
+                                                                                                         |  <bb 2> [local count: 214748369]:
+  <bb 2> :                                                                                               |  N.0_9 = N;
+  a_4 = 10;                                                                                              |  a_10 = N.0_9 + 10;
+  i_5 = 0;                                                                                               |  a_15 = N.0_9 + a_10;
+  goto <bb 4>; [INV]                                                                                     |  a_20 = N.0_9 + a_15;
+                                                                                                         |  a_25 = N.0_9 + a_20;
+  <bb 3> :                                                                                               |  return a_25;
+  N.0_1 = N;                                                                                             |
+  a_8 = a_3 + N.0_1;                                                                                     |}
+  i_9 = i_2 + 1;                                                                                         |
+                                                                                                         |
+  <bb 4> :                                                                                               |~
+  # i_2 = PHI <i_5(2), i_9(3)>                                                                           |~
+  # a_3 = PHI <a_4(2), a_8(3)>                                                                           |~
+  if (i_2 <= 3)                                                                                          |~
+    goto <bb 3>; [INV]                                                                                   |~
+  else                                                                                                   |~
+    goto <bb 5>; [INV]                                                                                   |~
+                                                                                                         |~
+  <bb 5> :                                                                                               |~
+  _6 = a_3;                                                                                              |~
+  return _6;                                                                                             |~
+                                                                                                         |~
+}                                                                                                        |~
+                                                                                                         |~
+                                                                                                         |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                        |~
+~                                                                                                       
+
+
+
+Q.1  What will happen if "a = a + N" is replaced by "a = a + 1"?
+Ans: The compiler will be able to find the final value of a which is in turn 14 and function in the end will return 14.
+                                                                                                      

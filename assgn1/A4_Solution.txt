@@ -1,0 +1,72 @@
+Problem A-4:
+#include<stdio.h>                                                             |
+                                                                              |;; Function main (main, funcdef_no=12, decl_uid=3089, cgraph_uid=13, symbol_order=12)
+        int main()                                                            |
+        {                                                                     |;; 2 loops found
+            int a[3];                                                         |;;
+            int b[] = {1, 2, 3};                                              |;; Loop 0
+            int i, *p;                                                        |;;  header 0, latch 1
+            for (i=0; i<3; i++) {                                             |;;  depth 0, outer -1
+                a[i] = b[i];                                                  |;;  nodes: 0 1 2 3 4 5 6
+            }                                                                 |;;
+            p = a;                                                            |;; Loop 1
+            *(p + 2) = 5;                                                     |;;  header 4, latch 3
+        }                                                                     |;;  depth 1, outer 0
+                                                                              |;;  nodes: 4 3
+                                                                              |;; 2 succs { 4 }
+~                                                                             |;; 3 succs { 4 }
+~                                                                             |;; 4 succs { 3 5 }
+~                                                                             |;; 5 succs { 6 }
+~                                                                             |;; 6 succs { 1 }
+~                                                                             |main ()
+~                                                                             |{
+~                                                                             |  int * p;
+~                                                                             |  int i;
+~                                                                             |  int b[3];
+~                                                                             |  int a[3];
+~                                                                             |  int D.3099;
+~                                                                             |
+~                                                                             |  <bb 2> :
+~                                                                             |  b[0] = 1;
+~                                                                             |  b[1] = 2;
+~                                                                             |  b[2] = 3;
+~                                                                             |  i = 0;
+~                                                                             |  goto <bb 4>; [INV]
+~                                                                             |
+~                                                                             |  <bb 3> :
+~                                                                             |  _1 = b[i];
+~                                                                             |  a[i] = _1;
+~                                                                             |  i = i + 1;
+~                                                                             |
+~                                                                             |  <bb 4> :
+~                                                                             |  if (i <= 2)
+~                                                                             |    goto <bb 3>; [INV]
+~                                                                             |  else
+~                                                                             |    goto <bb 5>; [INV]
+~                                                                             |
+~                                                                             |  <bb 5> :
+~                                                                             |  p = &a;
+~                                                                             |  _2 = p + 8;
+~                                                                             |  *_2 = 5;
+~                                                                             |  a = {CLOBBER};
+~                                                                             |  b = {CLOBBER};
+~                                                                             |  D.3099 = 0;
+~                                                                             |
+~                                                                             |  <bb 6> :
+~                                                                             |<L3>:
+~                                                                             |  return D.3099;
+
+
+Q.1 How is array declaration and initialization handled?
+Ans: Just like multiple variables, array elements are also declared one
+ after the other in a particular block and initialization is done by using temporaries.
+
+Q.2 Why does the statement a[i] = b[i] get broken down to two steps with an intermediate temporary?
+Ans: As GIMPLE  can perform only  one operation per statement,  it cannot read  and write  to  array
+locations at  the  same  time. Thus,  these are  split into separate read and write statements by introducing a temporary.
+
+
+Q.3 Why are there CLOBBER statements at the end?
+Ans: CLOBBER statements are used for address-escaped variables. It is to notify that the scope of 
+address-escaped variable has ended.
+                                                 

@@ -1,0 +1,71 @@
+Problem A-1:
+#include<stdio.h>                                                                                        |main ()
+int Z;                                                                                                   |{
+                                                                                                         |  int a;
+        void main()                                                                                      |  int b;
+        {                                                                                                |  int c;
+                int a, b, c;                                                                             |  int p;
+                int p = 6;                                                                               |  int q;
+                int q;                                                                                   |  double r;
+                double r;                                                                                |
+                                                                                                         |  p = 6;
+                a = 10;                                                                                  |  a = 10;
+                b = 20;                                                                                  |  b = 20;
+                c = a * b + 25;                                                                          |  _1 = a * b;
+                p = 6;                                                                                   |  c = _1 + 25;
+                q = Z;                                                                                   |  p = 6;
+                r = 34.5;                                                                                |  q = Z;
+                Z = r;                                                                                   |  r = 3.45e+1;
+                Z = Z + 1;                                                                               |  _2 = (int) r;
+        }                                                                                                |  Z = _2;
+                                                                                                         |  Z.0_3 = Z;
+                                                                                                         |  _4 = Z.0_3 + 1;
+~                                                                                                        |  Z = _4;
+~                                                                                                        |}
+~                                                                                                        |
+~                                                        
+
+
+Q.1 How do the declarations look in the GIMPLE? Specifically, what happens to multiple variables declared 
+and initialized on the same line? What happens to global declaration [int Z]?
+Ans: The variables are declared as usually in simple c program but in case of multiple variable declaration,
+variables are declared one by one. In case of global variable, it is not declared as of local variable,
+ it is directly used in the expression.
+
+Q.2 How are complex expressions such as [c = a * b + 25] broken down? Can you determine a rule as to when
+ temporary variables will be introduced?
+Ans: The complex part is broken down into number of steps where operations take place according to their
+ precedence and the sub-processed value is stored in temporary variables which are used in further sub-processes.
+ Hence the temporaries are introduced to store the value of subexpression of any complex expression.
+
+Q.3 How are floats/doubles represented in GIMPLE? What happens when a float/double is assigned to an integer in [Z = r]?
+Ans: Floats and doubles are represented in scientific notations (_e+_) and when float/double is assigned to an
+ integer, only its integral part is assigned.
+
+Q.4 How are reads/writes to the global variable Z performed?  Why is there a temporary introduced for the statement
+ [Z = Z + 1] but not for the statements [q = Z] or [Z = p]?
+Ans: For further arithmetic operation, it may be possible that we have to use a variable declared before. Hence in 
+case of Z=Z+1, a temporary is used while in case of statements, its memory is already stored so there is no need of introducing a new temporary.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
